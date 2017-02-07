@@ -19,6 +19,16 @@ import java.nio.charset.StandardCharsets;
  */
 public class Grafik {
 
+    // данные 1-ой строки графика из счетчика
+    class rowgraf {
+        String  dat;
+        String  tim;
+        int     delta;
+        double  v1;
+        double  v2;
+        
+    }
+    
     /**
      * Загрузить график из файла в БД
      *
@@ -28,46 +38,83 @@ public class Grafik {
      */
     public int load(String fileName, Database db) {
         int cnt = 0;
+        int a;
+        
+        String line;
         try {
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
                             new FileInputStream(fileName), StandardCharsets.US_ASCII)
-            ); // .UTF_8
-            String line, str, sql;
-            int a;
+            );
+            // для увеличения скорости вставки (http://www.sql.ru/forum/688069/kak-uvelichit-skorost-vstavki-bolshogo-chisla-insert-v-sqlite)
+            db.ExecSql("BEGIN TRANSACTION;");
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-                String[] t = line.split("[\\s\"/:]+");
-                String sdat;
-                sdat = String.format("20%s-%s-%s", t[3],t[2],t[1]);
-                sdat = "20" + t[3] + "-" + t[2] + "-" + t[1];  // 2016-10-18
-                String stim;
-                stim = t[4] + ":" + t[5];  // 00:30
-                int h, m;
-                h = Integer.parseInt(t[4]);
-                m = Integer.parseInt(t[5]);
-                m = (30 + m) / 60;
-                h= h + m; // 02:00 -> 2
-                // '2016-10-18', '00:30', 30, 0.0300, 0.0040, 00
-                str = "'" + sdat + "', '" + stim + "', " + t[6] + ", " + t[7] + ", " + t[8] + ", " + h;
-                //  INSERT INTO rep (Dat,Tim,Delta,V1,V2,H) VALUES ('2016-10-18', '00:30', 30, 0.0300, 0.0040, 00);
-                sql = " INSERT INTO rep (Dat,Tim,Delta,V1,V2,H) VALUES (" + str + ");";
-                a = db.ExecSql(sql);
+                rowgraf rg = getRow(line); // строка графика
+                a = putRow(rg, db);
                 cnt += a;
-
-
-
-
-
-
             }
+            db.ExecSql("COMMIT;");
         } catch (IOException e) {
             e.printStackTrace();    // log error
         }
-
-
         return cnt;
 
     }
+    
+    /**
+     * Разобрать входную строку графика на значения для вставки в БД
+     * @param inputStr  входная строка графитка
+     * @return          объект "строка данных", null если ошибка
+     */
+    private rowgraf getRow(String inputStr)
+    {
+        String[] t = inputStr.split("[\\s\"/:]+");
+        String sdat;
+        sdat = String.format("20%s-%s-%s", t[3],t[2],t[1]);
+        sdat = "20" + t[3] + "-" + t[2] + "-" + t[1];  // 2016-10-18
+        String stim;
+        stim = t[4] + ":" + t[5];  // 00:30
+        int dlt;
+        dlt = Integer.parseInt(t[6]);
+        double v1, v2;
+        v1=Double.parseDouble(t[7]);
+        v2=Double.parseDouble(t[8]);
+        //
+        rowgraf rg = new rowgraf();
+        rg.dat = sdat;
+        rg.tim = stim;
+        rg.delta = dlt;
+        rg.v1 = v1;
+        rg.v2 = v2;
+        return rg;
+    }
+    
+    /**
+     * Положить строку графика в БД
+     * @param rg    строка графика
+     * @param db    база данных
+     * @return      1-записана строка данных, 0-не записана
+     */
+    private int putRow(rowgraf rg, Database db)
+    {
+        int a = 0;
+        int h, m;
+        String str, sql;
+        
+        if(rg != null) {
+            String[] hm = rg.tim.split(":");    // разбить строку со временем на час и минуты
+            h = Integer.parseInt(hm[0]);
+            m = Integer.parseInt(hm[1]);
+            m = (30 + m) / 60;
+            h= h + m; // 02:00 -> 2  номер часа конца интервала
+            str = "'" + rg.dat + "', '" + rg.tim + "', " + rg.delta + ", " + rg.v1 + ", " + rg.v2 + ", " + h;
+            //  INSERT INTO rep (Dat,Tim,Delta,V1,V2,H) VALUES ('2016-10-18', '00:30', 30, 0.0300, 0.0040, 1);
+            sql = " INSERT INTO rep (Dat,Tim,Delta,V1,V2,H) VALUES (" + str + ");";
+            a = db.ExecSql(sql);
+            return a;
+        }
+        return 0;
+    }
+    
 
 }
