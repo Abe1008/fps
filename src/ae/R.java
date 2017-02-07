@@ -17,6 +17,7 @@ public class R {
     public final static String tmpDir = System.getProperty("java.io.tmpdir"); // временный каталог (завершается обратным слэшем)
 
     public static String databaseName = "fps.db";   // имя базы данных
+    public static String outputFile = tmpDir + "a.xlsx"; // выходное имя файла Excel
 
     public static double KT = 1800;                     // коэффициент трансформации
 
@@ -24,17 +25,6 @@ public class R {
     public static String screenDir = "C:\\TMP\\SCR";     // корневой каталог храненения скриншотов сайтов
     ////public final static String template_workdir = "@dir@";     // шаблон рабочего каталога в файле (будет заменяться)" +
 
-    public final static String batfileName = "btest.bat";       // имя bat-файла
-    public final static String phantomScript = "my.js";         // имя скрипта для phantomjs
-    public final static String phantomjsExe = "phantomjs.exe";  // имя файла программы Phantomjs
-
-    public static long timeStore = 4320;        // время хранения log и скриншотов (мин) - 3 суток
-
-    // настройки для обнаружения неисправности сайта
-    public static int timeAlert = 15;         // время неисправности сайта, для возникновения тревоги
-    public static int timeAfterAlert = 10;     // время работы после тревоги, чтобы считатьсайт работающим
-
-    public static String addressSmtpServer = "gw.rfc.nnov.ru";   // адрес почтового сервера
     //
 
     /**
@@ -43,18 +33,22 @@ public class R {
     public void loadDefault()
     {
         // http://stackoverflow.com/questions/2815404/load-properties-file-in-jar
+        /*
         Properties props = new Properties();
         try {
+            
             props.load(R.class.getResourceAsStream("res/default.properties"));
             this.workDir = props.getProperty("workDir");
             this.screenDir = props.getProperty("screenDir");
             this.databaseName = props.getProperty("databaseName");
             this.addressSmtpServer = props.getProperty("addressSmtpServer");
             this.timeStore = Long.parseLong( props.getProperty("timeStore") );
+            
             //
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
     }
 
     /**
