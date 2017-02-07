@@ -21,10 +21,6 @@ public class R {
 
     public static double KT = 1800;                     // коэффициент трансформации
 
-    public static String workDir = "C:\\TMP\\WORK";     // рабочий каталог (из-за replaceAll удваиваем \)
-    public static String screenDir = "C:\\TMP\\SCR";     // корневой каталог храненения скриншотов сайтов
-    ////public final static String template_workdir = "@dir@";     // шаблон рабочего каталога в файле (будет заменяться)" +
-
     //
 
     /**
@@ -75,7 +71,6 @@ public class R {
      */
     public ByteArrayOutputStream readResB(String nameRes)
     {
-        String str = null;
         try {
             // Get current classloader
             InputStream is = getClass().getResourceAsStream(nameRes);
