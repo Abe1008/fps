@@ -26,7 +26,6 @@ public class Grafik {
         int     delta;
         double  v1;
         double  v2;
-        
     }
     
     /**
@@ -39,7 +38,6 @@ public class Grafik {
     public int load(String fileName, Database db) {
         int cnt = 0;
         int a;
-        
         String line;
         try {
             BufferedReader reader = new BufferedReader(
@@ -48,7 +46,7 @@ public class Grafik {
             );
             // для увеличения скорости вставки (http://www.sql.ru/forum/688069/kak-uvelichit-skorost-vstavki-bolshogo-chisla-insert-v-sqlite)
             db.ExecSql("BEGIN TRANSACTION;");
-            while ((line = reader.readLine()) != null) {
+            while((line = reader.readLine()) != null) {
                 rowgraf rg = getRow(line); // строка графика
                 a = putRow(rg, db);
                 cnt += a;
@@ -58,7 +56,6 @@ public class Grafik {
             e.printStackTrace();    // log error
         }
         return cnt;
-
     }
     
     /**
