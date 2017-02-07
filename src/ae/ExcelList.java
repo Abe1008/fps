@@ -84,12 +84,8 @@ public class ExcelList {
                 }
             }
             rst.close();
-            // TODO  установить дату на листе
-            String str;
-            str = String.format("01.%02d.%04d", month, year);
+            // установить дату на листе
             Cell cell = worksheet.getRow(9).getCell(2);
-            //cell.setCellValue(str);
-            //
             cell.setCellValue(new Date(year-1900,month-1,1));
             //
             // перерасчет всех формул на листе
