@@ -16,17 +16,16 @@ public class Main {
         // int a = 123;
         R r = new R();  // ресурсный класс
         int l = args.length;
-        if(l < 2) {
+        if(l < 1) {
             String msg = r.readRes("res/hello.txt");
             System.out.println(msg);
             return;
         }
         String sinp = args[0];  // входной файл
-        String sout = args[1];  // выходной файл
-        if(!r.writeRes2File("res/srcout.xlsx", sout)) {
-            System.out.println("?ERROR-can't write file: " + sout);
-            return;
+        if(l>1) {
+            R.outputFile = args[1];
         }
+
         //
         DatabaseUse db = new DatabaseUse();  // открыть временную базу данных
         String  dbn = db.getDatabaseName();
@@ -35,6 +34,12 @@ public class Main {
         a=grf.load(sinp, db);
 
         System.out.println("Load strings: " + a);
+
+        ExcelList ex  = new ExcelList(db);
+        //
+        a = ex.writeList(2016, 12, R.outputFile);
+
+        System.out.println("Write to Excel rows: " + a);
 
         db.close();
         // db.deleteDatabase();

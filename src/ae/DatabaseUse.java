@@ -20,10 +20,14 @@ import java.sql.Statement;
  */
 public class DatabaseUse extends DatabaseSqlite {
 
+    /**
+     *  Конструктор - создает БД во временном каталоге с заданным именем
+     */
     public DatabaseUse()
     {
         R r = new R();
         String  dbn = R.tmpDir + R.sep + R.databaseName;
+        // TODO: сделать временное имя (потом)
         if(!r.writeRes2File("res/fps.db", dbn)) {
             System.out.println("?ERROR-can't create temporary database: " + dbn);
             System.exit(3); // прервать выполнение программы с кодом 3

@@ -32,6 +32,7 @@ public class DatabaseSqlite extends Database
                 e.printStackTrace();
             }
         }
+
         return f_connection;
     }
 
