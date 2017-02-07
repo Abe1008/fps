@@ -17,9 +17,9 @@ public class R {
     public final static String tmpDir = System.getProperty("java.io.tmpdir"); // временный каталог (завершается обратным слэшем)
 
     public static String databaseName = "fps.db";   // имя базы данных
-    public static String outputFile = tmpDir + "a.xlsx"; // выходное имя файла Excel
+    public static String outputFile = "c:\\tmp\\a.xlsx"; // выходное имя файла Excel
 
-    public static double KT = 1800;                     // коэффициент трансформации
+    public static double KT = 1000 ; //1800;                     // коэффициент трансформации
 
     //
 

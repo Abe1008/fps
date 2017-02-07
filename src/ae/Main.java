@@ -37,7 +37,7 @@ public class Main {
 
         ExcelList ex  = new ExcelList(db);
         //
-        a = ex.writeList(2016, 12, R.outputFile);
+        a = ex.writeList(2016, 11, R.outputFile);
 
         System.out.println("Write to Excel rows: " + a);
 

@@ -15,7 +15,7 @@ import java.sql.Statement;
  * чтобы не переделывать код
  * В этом проекте это временная база данных, создается во временном каталоге fps.db
  * Таблица rep
- * CREATE TABLE [rep](Dat DATE, Tim TIME, Delta INT, V1 DOUBLE, V2 DOUBLE, H INT);
+ * CREATE TABLE [rep](year INT, mon INT, day INT, hh INT, mm INT, Delta INT, V1 DOUBLE, V2 DOUBLE, H INT);
  *
  */
 public class DatabaseUse extends DatabaseSqlite {

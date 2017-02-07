@@ -22,10 +22,15 @@ public class Grafik {
     // данные 1-ой строки графика из счетчика
     class rowgraf {
         String  dat;
-        String  tim;
+        int     year;
+        int     mon;
+        int     day;
+        int     hh;
+        int     mm;
         int     delta;
         double  v1;
         double  v2;
+        int     h;
     }
     
     /**
@@ -66,23 +71,18 @@ public class Grafik {
     private rowgraf getRow(String inputStr)
     {
         String[] t = inputStr.split("[\\s\"/:]+");
-        String sdat;
-        sdat = String.format("20%s-%s-%s", t[3],t[2],t[1]);
-        sdat = "20" + t[3] + "-" + t[2] + "-" + t[1];  // 2016-10-18
-        String stim;
-        stim = t[4] + ":" + t[5];  // 00:30
-        int dlt;
-        dlt = Integer.parseInt(t[6]);
-        double v1, v2;
-        v1=Double.parseDouble(t[7]);
-        v2=Double.parseDouble(t[8]);
-        //
         rowgraf rg = new rowgraf();
-        rg.dat = sdat;
-        rg.tim = stim;
-        rg.delta = dlt;
-        rg.v1 = v1;
-        rg.v2 = v2;
+        rg.year = Integer.parseInt("20"+t[3]); // год
+        rg.mon = Integer.parseInt(t[2]);  // месяц
+        rg.day = Integer.parseInt(t[1]);  // день месяца
+        rg.hh = Integer.parseInt(t[4]);     // час
+        rg.mm = Integer.parseInt(t[5]);     // минута 00:30
+        rg.delta = Integer.parseInt(t[6]);
+        rg.v1 = Double.parseDouble(t[7]);
+        rg.v2 = Double.parseDouble(t[8]);
+        rg.h = rg.hh;
+        if(rg.mm > 0) rg.h++; // несколько минут относит нас в следующий часовой интервал
+        //
         return rg;
     }
     
@@ -99,14 +99,11 @@ public class Grafik {
         String str, sql;
         
         if(rg != null) {
-            String[] hm = rg.tim.split(":");    // разбить строку со временем на час и минуты
-            h = Integer.parseInt(hm[0]);
-            m = Integer.parseInt(hm[1]);
-            m = (30 + m) / 60;
-            h= h + m; // 02:00 -> 2  номер часа конца интервала
-            str = "'" + rg.dat + "', '" + rg.tim + "', " + rg.delta + ", " + rg.v1 + ", " + rg.v2 + ", " + h;
-            //  INSERT INTO rep (Dat,Tim,Delta,V1,V2,H) VALUES ('2016-10-18', '00:30', 30, 0.0300, 0.0040, 1);
-            sql = " INSERT INTO rep (Dat,Tim,Delta,V1,V2,H) VALUES (" + str + ");";
+            str = rg.year + ", " + rg.mon + ", " + rg.day +   ", " +
+                    rg.hh + ", " + rg.mm +  ", " + rg.delta + ", " +
+                    rg.v1 + ", " + rg.v2 +  ", " + rg.h;
+            // INSERT INTO rep (year,mon,day,hh,mm,Delta,V1,V2,H) VALUES (2016, 10, 18, 0, 30, 30, 0.03, 0.004, 1);
+            sql = " INSERT INTO rep (year,mon,day,hh,mm,Delta,V1,V2,H) VALUES (" + str + ");";
             a = db.ExecSql(sql);
             return a;
         }
