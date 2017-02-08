@@ -7,6 +7,8 @@ package ae;
 
 import java.io.File;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by ae on 03.02.2017.
@@ -26,8 +28,12 @@ public class DatabaseUse extends DatabaseSqlite {
     public DatabaseUse()
     {
         R r = new R();
-        String  dbn = R.tmpDir + R.sep + R.databaseName;
-        // TODO: сделать временное имя (потом)
+        String  dbn = R.tmpDir + R.sep + R.databaseName + ".db";
+        // сделать временное имя (потом)
+        LocalDateTime dt = LocalDateTime.now();
+        String s1 = dt.format(DateTimeFormatter.ofPattern("DHms"));
+        String s2 = String.format("%05d", (int)(Math.random()*100000));
+        dbn = R.tmpDir + R.databaseName + s1 + s2 + ".db";  // временное имя файла БД
         if(!r.writeRes2File("res/fps.db", dbn)) {
             System.out.println("?ERROR-can't create temporary database: " + dbn);
             System.exit(3); // прервать выполнение программы с кодом 3
@@ -39,6 +45,9 @@ public class DatabaseUse extends DatabaseSqlite {
             System.out.println("?-ERROR-can't open temporary database: " + dbn);
             System.exit(4); // прервать выполнение программы с кодом 4
         }
+        // TODO (в конце концов) удалим по окончанию работы
+        // File f = new File(dbn);
+        // f.deleteOnExit();
     }
 
     public String getDatabaseName()
