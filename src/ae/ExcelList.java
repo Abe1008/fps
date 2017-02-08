@@ -8,7 +8,6 @@ package ae;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.sql.ResultSet;
@@ -108,7 +107,7 @@ public class ExcelList {
             // установить дату на листе
             Cell cell = wks.getRow(ListDate_row).getCell(ListDate_col);
             cell.setCellValue(new Date(year-1900, month-1, 1));
-            //
+            // После заполнения ячеек формулы не пересчитываются, поэтому выполним принудительно
             // перерасчет всех формул на листе
             // http://poi.apache.org/spreadsheet/eval.html#Re-calculating+all+formulas+in+a+Workbook
             FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
@@ -121,6 +120,7 @@ public class ExcelList {
                     }
                 }
             }
+            //
             // Write the output to a file
             FileOutputStream fileOut = new FileOutputStream(sout);
             wb.write(fileOut);

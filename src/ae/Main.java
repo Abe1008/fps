@@ -15,6 +15,7 @@ public class Main {
         // write your code here
         R r = new R();  // ресурсный класс
         int l = args.length;
+        int a;
         if(l < 1) {
             String msg = r.getText("res/hello.txt", "Cp1251");
             System.out.println(msg);
@@ -34,21 +35,17 @@ public class Main {
         DatabaseUse db = new DatabaseUse();  // открыть временную базу данных
         String  dbn = db.getDatabaseName();
         Grafik  grf = new Grafik();
-        int a;
+        // прочитать репорт со счетчика
         a=grf.load(sinp, db);
-
         System.out.println("Load strings: " + a);
 
         ExcelList ex  = new ExcelList(db);
-        //
+        // записать данные в Excel
         a = ex.writeAllList(R.outputFile);
-
         System.out.println("Write to Excel rows: " + a);
-
+        //
         db.close();
         // db.deleteDatabase();
-
-
-
     }
+
 }

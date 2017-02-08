@@ -63,7 +63,7 @@ public class Database
                 stm.execute(sql);
                 a = stm.getUpdateCount();
             } catch (SQLException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return a;
