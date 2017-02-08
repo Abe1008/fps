@@ -61,7 +61,7 @@ public class ExcelList {
             FileInputStream inp = new FileInputStream(sout);
             // получим рабочую книгу Excel
             //Workbook wb = new XSSFWorkbook(inp); // прочитать файл с Excel 2010
-            Workbook wb = new HSSFWorkbook(inp); // прочитать файл с Excel 2010
+            Workbook wb = new HSSFWorkbook(inp); // прочитать файл с Excel 2003
             inp.close();
             // Read more: http://www.techartifact.com/blogs/2013/10/update-or-edit-existing-excel-files-in-java-using-apache-poi.html#ixzz4Y23Vf1eR
             // получим первый лист
