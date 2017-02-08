@@ -78,11 +78,10 @@ public class Database
     public String Dlookup(String strSql)
     {
         String result = null;
-        ResultSet rst = null;
         Statement stm = getDbStatement();
         if(stm != null) {
             try {
-                rst = stm.executeQuery(strSql);
+                ResultSet rst = stm.executeQuery(strSql);
                 if(rst.next()) {
                   result = rst.getString(1);  // взять первый столбец
                 }
@@ -102,14 +101,13 @@ public class Database
     public ArrayList<String> DlookupArray(String strSql)
     {
         ArrayList<String>  result = null;
-        ResultSet rst = null;
         Statement stm = getDbStatement();
         if(stm != null) {
             try {
-                rst = stm.executeQuery(strSql);
+                ResultSet rst = stm.executeQuery(strSql);
                 result = new ArrayList<>();
                 while (rst.next()) {
-                    String str = rst.getString(1);  // взять перлвый столбец
+                    String str = rst.getString(1);  // взять первый столбец
                     result.add(str);
                 }
                 rst.close();
