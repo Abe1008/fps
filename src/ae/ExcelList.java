@@ -37,11 +37,11 @@ public class ExcelList {
      */
     public int writeList(int year, int month, String nameOut)
     {
-        final int Data_base_row = 15;       // базовая строка, для вставки данных расхода
-        final int Date_base_col = 1;        // базовая колонка для вставки данных расхода
-        final int Data_row_interval = 30;   // интервал между блоками данных в таблице Excel
-        final int ListDate_row = 9;         // строка для вставки даты листа
-        final int ListDate_col = 2;         // колонка для вставки даты листа
+        final int Data_base_row = R.Data_base_row;       // базовая строка, для вставки данных расхода
+        final int Date_base_col = R.Date_base_col;        // базовая колонка для вставки данных расхода
+        final int Data_row_interval = R.Data_row_interval;   // интервал между блоками данных в таблице Excel
+        final int ListDate_row = R.ListDate_row;         // строка для вставки даты месяца листа
+        final int ListDate_col = R.ListDate_col;         // колонка для вставки даты месяца листа
         int cnt = 0;
         R rr = new R();
         File f = new File(nameOut);

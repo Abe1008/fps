@@ -12,18 +12,22 @@ package ae;
 public class Main {
 
     public static void main(String[] args) {
-	    // write your code here
-        // int a = 123;
+        // write your code here
         R r = new R();  // ресурсный класс
         int l = args.length;
         if(l < 1) {
-            String msg = r.readRes("res/hello.txt");
+            String msg = r.getText("res/hello.txt", "Cp1251");
             System.out.println(msg);
             return;
         }
         String sinp = args[0];  // входной файл
-        if(l>1) {
+        // указан выходной файл
+        if(l > 1) {
             R.outputFile = args[1];
+        }
+        // указан коэффициент трансформации
+        if(l > 2) {
+            R.KT = Double.parseDouble(args[2]);
         }
 
         //

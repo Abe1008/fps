@@ -17,12 +17,18 @@ public class R {
     public final static String tmpDir = System.getProperty("java.io.tmpdir"); // временный каталог (завершается обратным слэшем)
 
     public static String databaseName = "fps.db";   // имя базы данных
-    public static String outputFile = "c:\\tmp\\a.xlsx"; // выходное имя файла Excel
+    public static String outputFile = tmpDir + "a.xlsx"; // выходное имя файла Excel
 
-    public static double KT = 1000 ; //1800;                     // коэффициент трансформации
+    public static double KT = 1800 ; //1800;                     // коэффициент трансформации
 
     //
-
+    // параметры для внесения данных в лист Excel
+    final static int Data_base_row = 15;       // базовая строка, для вставки данных расхода
+    final static int Date_base_col = 1;        // базовая колонка для вставки данных расхода
+    final static int Data_row_interval = 30;   // интервал между блоками данных в таблице Excel
+    final static int ListDate_row = 9;         // строка для вставки даты месяца листа
+    final static int ListDate_col = 2;         // колонка для вставки даты месяца листа
+    
     /**
      * загрузка значений параметров по-умолчанию из файла res/default.properties
      */
@@ -63,7 +69,29 @@ public class R {
         }
         return str;
     }
-
+    
+    /**
+     * Загружает текстовый ресурс в заданной кодировке
+     * @param name      имя ресурса
+     * @param code_page кодировка, например "Cp1251"
+     * @return          строка ресурса
+     */
+    public String getText(String name, String code_page)
+    {
+        StringBuilder sb = new StringBuilder();
+        try {
+            InputStream is = this.getClass().getResourceAsStream(name);  // Имя ресурса
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, code_page));
+            String line;
+            while ((line = br.readLine()) !=null) {
+                sb.append(line);  sb.append("\n");
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return sb.toString();
+    }
+    
     /**
      * Поместить ресурс в байтовый массив
      * @param nameRes - название ресурса (относительно каталога пакета)
