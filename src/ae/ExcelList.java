@@ -46,6 +46,9 @@ public class ExcelList {
         R rr = new R();
         File f = new File(nameOut);
         String fp = f.getParent();
+        if(fp == null) {
+            fp = ".";
+        }
         String fn = f.getName();
         String ss = String.format("%04d-%02d-", year, month);
         String sout = fp + R.sep + ss + fn;
