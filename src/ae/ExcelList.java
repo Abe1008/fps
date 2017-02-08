@@ -6,6 +6,7 @@
 package ae;
 
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -49,7 +50,7 @@ public class ExcelList {
         String fn = f.getName();
         String ss = String.format("%04d-%02d-", year, month);
         String sout = fp + R.sep + ss + fn;
-        if(!rr.writeRes2File("res/srcout.xlsx", sout)) {
+        if(!rr.writeRes2File("res/srcout3.xls", sout)) {    // srcout.xlsx Excel 2010 srcout3.xls Excel 2003
             System.out.println("?ERROR-can't write file: " + sout);
             return 0;
         }
@@ -58,8 +59,9 @@ public class ExcelList {
         //
         try {
             FileInputStream inp = new FileInputStream(sout);
-            // полуим рабочую книгу Excel
-            Workbook wb = new XSSFWorkbook(inp); // прочитать файл с Excel
+            // получим рабочую книгу Excel
+            //Workbook wb = new XSSFWorkbook(inp); // прочитать файл с Excel 2010
+            Workbook wb = new HSSFWorkbook(inp); // прочитать файл с Excel 2010
             inp.close();
             // Read more: http://www.techartifact.com/blogs/2013/10/update-or-edit-existing-excel-files-in-java-using-apache-poi.html#ixzz4Y23Vf1eR
             // получим первый лист
