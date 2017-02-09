@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
  *
  */
 public class Grafik {
+    private Database f_db;
 
     // данные 1-ой строки графика из счетчика
     class rowgraf {
@@ -33,13 +34,20 @@ public class Grafik {
     }
     
     /**
+     * Конструктор
+     * @param db    база данных
+     */
+    public Grafik(Database db)
+    {
+        this.f_db = db;
+    }
+    
+    /**
      * Загрузить график из файла в БД
-     *
      * @param fileName  имя текстового файла с графиком нагрузки счетчика
-     * @param db        база данных с таблицей rep(Dat,Tim,Delta,V1,V2)
      * @return          кол-во загружнных записей
      */
-    public int load(String fileName, Database db) {
+    public int load(String fileName) {
         int cnt = 0;
         int a;
         String line;
@@ -49,13 +57,13 @@ public class Grafik {
                             new FileInputStream(fileName), StandardCharsets.US_ASCII)
             );
             // для увеличения скорости вставки (http://www.sql.ru/forum/688069/kak-uvelichit-skorost-vstavki-bolshogo-chisla-insert-v-sqlite)
-            db.ExecSql("BEGIN TRANSACTION;");
+            f_db.ExecSql("BEGIN TRANSACTION;");
             while((line = reader.readLine()) != null) {
                 rowgraf rg = getRow(line); // строка графика
-                a = putRow(rg, db);
+                a = putRow(rg);
                 cnt += a;
             }
-            db.ExecSql("COMMIT;");
+            f_db.ExecSql("COMMIT;");
         } catch (IOException e) {
             e.printStackTrace();    // log error
         }
@@ -88,10 +96,9 @@ public class Grafik {
     /**
      * Положить строку графика в БД
      * @param rg    строка графика
-     * @param db    база данных
      * @return      1-записана строка данных, 0-не записана
      */
-    private int putRow(rowgraf rg, Database db)
+    private int putRow(rowgraf rg)
     {
         int a = 0;
         int h, m;
@@ -103,11 +110,12 @@ public class Grafik {
                     rg.v1 + ", " + rg.v2 +  ", " + rg.h;
             // INSERT INTO rep (year,mon,day,hh,mm,Delta,V1,V2,H) VALUES (2016, 10, 18, 0, 30, 30, 0.03, 0.004, 1);
             sql = " INSERT INTO rep (year,mon,day,hh,mm,Delta,V1,V2,H) VALUES (" + str + ");";
-            a = db.ExecSql(sql);
+            a = f_db.ExecSql(sql);
             return a;
         }
         return 0;
     }
     
+   
 
 }

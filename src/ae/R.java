@@ -17,7 +17,7 @@ public class R {
     public final static String tmpDir = System.getProperty("java.io.tmpdir"); // временный каталог (завершается обратным слэшем)
 
     public static String databaseName = "fps";   // имя базы данных
-    public static String outputFile = tmpDir + "a.xls"; // выходное имя файла Excel
+    public static String outputFileName = "tab.xls"; // выходное имя файла Excel
 
     public static double KT = 1800 ; //1800;                     // коэффициент трансформации
 
@@ -32,7 +32,7 @@ public class R {
     /**
      * загрузка значений параметров по-умолчанию из файла res/default.properties
      */
-    public void loadDefault()
+    public void loadDefault(
     {
         // http://stackoverflow.com/questions/2815404/load-properties-file-in-jar
         /*
