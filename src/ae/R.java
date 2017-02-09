@@ -32,7 +32,7 @@ public class R {
     /**
      * загрузка значений параметров по-умолчанию из файла res/default.properties
      */
-    public void loadDefault(
+    public void loadDefault()
     {
         // http://stackoverflow.com/questions/2815404/load-properties-file-in-jar
         /*
