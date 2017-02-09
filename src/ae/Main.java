@@ -52,7 +52,7 @@ public class Main {
                 R.KT = d;
                 l = l - 1;  // кол-во входных файлов
             } catch (NumberFormatException e) {
-                System.out.println("ошибка преобразования double, значит это не число, а файл");
+                ;// System.out.println("ошибка преобразования double, значит это не число, а файл");
             }
         }
         //
