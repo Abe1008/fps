@@ -21,7 +21,6 @@ public class Grafik {
 
     // данные 1-ой строки графика из счетчика
     class rowgraf {
-        String  dat;
         int     year;
         int     mon;
         int     day;
